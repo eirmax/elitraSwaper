@@ -1,7 +1,6 @@
 package com.eirmax.elitraswaper.mixin;
 
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,7 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class LivingEntityMixin {
     @Inject(method = "tryToStartFallFlying", at = @At("HEAD"), cancellable = true)
     private void onStartFallFlying(CallbackInfoReturnable<Boolean> cir) {
-        if (((LivingEntity)(Object)this).hasEffect(MobEffects.LEVITATION)) {
+        Player player = (Player) (Object) (this);
+        if (player.hasEffect(MobEffects.LEVITATION)) {
             cir.setReturnValue(false);
         }
     }

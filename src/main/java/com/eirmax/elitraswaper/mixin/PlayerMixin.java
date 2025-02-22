@@ -5,6 +5,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -21,12 +22,14 @@ public abstract class PlayerMixin {
         }
     }
 
+    @Unique
     private boolean isElytraOrChestplate(ItemStack stack) {
         return stack.getItem() == Items.ELYTRA ||
                 (stack.getItem() instanceof ArmorItem armor &&
                         armor.getEquipmentSlot() == EquipmentSlot.CHEST);
     }
 
+    @Unique
     private void handleEquipmentSwap(Player player, ItemStack newStack) {
         ItemStack currentChest = player.getItemBySlot(EquipmentSlot.CHEST);
 
@@ -43,6 +46,7 @@ public abstract class PlayerMixin {
         }
     }
 
+    @Unique
     private boolean shouldReplace(ItemStack current, ItemStack replacement) {
         if (current.isEmpty()) return true;
         return ArmorUtils.compareTiers(replacement, current) > 0;
