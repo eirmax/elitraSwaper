@@ -19,21 +19,19 @@ public class ArmorUtils {
     }
 
     public static int compareTiers(ItemStack a, ItemStack b) {
-        if (a == null && b == null) return 0; // Both are null
-        if (a == null) return 1; // a is null, b is not
-        if (b == null) return -1; // b is null, a is not
+        if (a == null && b == null) return 0;
+        if (a == null) return 1;
+        if (b == null) return -1;
 
         if (isElytra(a) && !isElytra(b)) return -1;
         if (!isElytra(a) && isElytra(b)) return 1;
 
-
         ArmorMaterial matA = getArmorMaterial(a);
         ArmorMaterial matB = getArmorMaterial(b);
+        int tierA = ARMOR_TIER_PRIORITIES.getOrDefault(matA, -1);
+        int tierB = ARMOR_TIER_PRIORITIES.getOrDefault(matB, -1);
 
-        return Integer.compare(
-                ARMOR_TIER_PRIORITIES.getOrDefault(matB, 0),
-                ARMOR_TIER_PRIORITIES.getOrDefault(matA, 0)
-        );
+        return Integer.compare(tierB, tierA);
     }
 
     private static ArmorMaterial getArmorMaterial(ItemStack stack) {
@@ -57,14 +55,15 @@ public class ArmorUtils {
                 alternatives.add(stack);
             }
         }
+        if (alternatives.isEmpty()) {
+            return;
+        }
 
         alternatives.sort(ArmorUtils::compareTiers);
 
-        if (!alternatives.isEmpty()) {
-            ItemStack best = alternatives.get(0);
-            if (!ItemStack.matches(current, best)) {
-                performSwap(player, best);
-            }
+        ItemStack best = alternatives.get(0);
+        if (!ItemStack.matches(current, best)) {
+            performSwap(player, best);
         }
     }
 
