@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "com.eirmax.elitraswaper.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "PlayerMixin",
+    "LivingEntityMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
