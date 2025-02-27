@@ -16,15 +16,15 @@ public abstract class PlayerMixin {
     private void onSetItemSlot(EquipmentSlot slot, ItemStack stack, CallbackInfo ci) {
         Player player = (Player) (Object) this;
 
-        if (slot == EquipmentSlot.CHEST && isElytraOrChestplate(stack)) {
+        if (slot == EquipmentSlot.CHEST && isEligibleForSwap(stack)) {
             handleEquipmentSwap(player, stack);
             ci.cancel();
         }
     }
 
     @Unique
-    private boolean isElytraOrChestplate(ItemStack stack) {
-        return stack.getItem() == Items.ELYTRA ||
+    private boolean isEligibleForSwap(ItemStack stack) {
+        return ArmorUtils.isElytra(stack) ||
                 (stack.getItem() instanceof ArmorItem armor &&
                         armor.getEquipmentSlot() == EquipmentSlot.CHEST);
     }
@@ -48,7 +48,14 @@ public abstract class PlayerMixin {
 
     @Unique
     private boolean shouldReplace(ItemStack current, ItemStack replacement) {
-        if (current.isEmpty()) return true;
+        if (current == null || replacement == null) {
+            return false;
+        }
+
+        if (current.isEmpty()) {
+            return true;
+        }
+
         return ArmorUtils.compareTiers(replacement, current) > 0;
     }
 }

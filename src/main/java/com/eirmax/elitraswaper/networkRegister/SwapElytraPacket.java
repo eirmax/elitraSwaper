@@ -11,10 +11,9 @@ public record SwapElytraPacket() {
     public void encode(FriendlyByteBuf buffer) {
     }
 
-    public SwapElytraPacket(FriendlyByteBuf buffer) {
-        this();
+    public static SwapElytraPacket decode(FriendlyByteBuf buffer) {
+        return new SwapElytraPacket();
     }
-
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
