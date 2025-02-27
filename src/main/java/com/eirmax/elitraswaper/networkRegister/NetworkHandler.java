@@ -1,10 +1,8 @@
 package com.eirmax.elitraswaper.networkRegister;
 
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
-
 
 public class NetworkHandler {
     private static final String PROTOCOL = "1";
@@ -14,10 +12,12 @@ public class NetworkHandler {
     );
 
     public static void register() {
-        INSTANCE.registerMessage(0, SwapElytraPacket.class,
-                SwapElytraPacket::encode, SwapElytraPacket::new,
-                SwapElytraPacket::handle);
+        INSTANCE.registerMessage(
+                0,
+                SwapElytraPacket.class,
+                SwapElytraPacket::encode,
+                SwapElytraPacket::decode,
+                SwapElytraPacket::handle
+        );
     }
 }
-
-

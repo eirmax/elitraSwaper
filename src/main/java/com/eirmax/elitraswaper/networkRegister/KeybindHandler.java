@@ -1,3 +1,4 @@
+
 package com.eirmax.elitraswaper.networkRegister;
 
 import com.eirmax.elitraswaper.Config;
@@ -16,7 +17,7 @@ public class KeybindHandler {
     public static void register() {
         swapKey = new KeyMapping(
                 "key.elitraswaper.swap",
-                Config.SWAP_KEY.get(),
+                Config.SWAP_KEY.get(), // Ensure this is not null
                 "key.category.elitraswaper"
         );
     }
@@ -26,9 +27,9 @@ public class KeybindHandler {
         event.register(swapKey);
     }
 
-    @Mod.EventBusSubscriber(modid = "elitraswaper", value = Dist.CLIENT)
+    @Mod.EventBusSubscriber(modid = "elitraswaper", bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     @OnlyIn(Dist.CLIENT)
-    public static class ClientForgeEvents {
+    public static class KeyInputHandler {
         @SubscribeEvent
         public static void onKeyInput(InputEvent.Key event) {
             if (swapKey.consumeClick()) {
