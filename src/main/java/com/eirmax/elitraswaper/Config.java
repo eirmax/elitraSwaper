@@ -11,18 +11,17 @@ public class Config {
     public static final ForgeConfigSpec.BooleanValue AUTO_EQUIP;
     public static final ForgeConfigSpec.IntValue SWAP_COOLDOWN;
     public static final ForgeConfigSpec.ConfigValue<Integer> SWAP_KEY;
+
     static {
-        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
-        SWAP_COOLDOWN = builder
+        SWAP_COOLDOWN = BUILDER
                 .comment("Swap cooldown in milliseconds")
                 .defineInRange("swapCooldown", 1000, 500, 5000);
-        AUTO_EQUIP = builder.comment("Enable auto-equip elytra during free fall")
+        AUTO_EQUIP = BUILDER.comment("Enable auto-equip elytra during free fall")
                 .define("autoEquip", true);
 
-        SWAP_KEY = builder.comment("The default key for swapping elytra.")
+        SWAP_KEY = BUILDER.comment("The default key for swapping elytra.")
                 .define("swapKey", GLFW.GLFW_KEY_R);
 
-        SPEC = builder.build();
+        SPEC = BUILDER.build();
     }
-
 }

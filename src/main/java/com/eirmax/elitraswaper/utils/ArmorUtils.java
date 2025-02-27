@@ -1,3 +1,4 @@
+
 package com.eirmax.elitraswaper.utils;
 
 import net.minecraft.world.entity.EquipmentSlot;
@@ -35,7 +36,7 @@ public class ArmorUtils {
     }
 
     private static ArmorMaterial getArmorMaterial(ItemStack stack) {
-        if (stack.getItem() instanceof ArmorItem armorItem) {
+        if (stack != null && stack.getItem() instanceof ArmorItem armorItem) {
             return armorItem.getMaterial();
         }
         return null;
@@ -51,17 +52,18 @@ public class ArmorUtils {
         List<ItemStack> alternatives = new ArrayList<>();
 
         for (ItemStack stack : player.getInventory().items) {
-            if (isEligibleForSwap(stack)) {
+            if (stack != null && isEligibleForSwap(stack)) {
                 alternatives.add(stack);
             }
         }
+
         if (alternatives.isEmpty()) {
             return;
         }
-
         alternatives.sort(ArmorUtils::compareTiers);
 
         ItemStack best = alternatives.get(0);
+
         if (!ItemStack.matches(current, best)) {
             performSwap(player, best);
         }
@@ -71,30 +73,27 @@ public class ArmorUtils {
         List<ItemStack> alternatives = new ArrayList<>();
 
         for (ItemStack stack : player.getInventory().items) {
-            if (isEligibleForSwap(stack)) {
+            if (stack != null && isEligibleForSwap(stack)) {
                 alternatives.add(stack);
             }
         }
 
         alternatives.sort(ArmorUtils::compareTiers);
-
         if (!alternatives.isEmpty()) {
             ItemStack best = alternatives.get(0);
             return ItemStack.matches(current, best);
         }
-
         return true;
     }
 
     private static boolean isEligibleForSwap(ItemStack stack) {
-        return isElytra(stack) ||
+        return stack != null && (isElytra(stack) ||
                 (stack.getItem() instanceof ArmorItem armor &&
-                        armor.getType().getSlot() == EquipmentSlot.CHEST);
+                        armor.getType().getSlot() == EquipmentSlot.CHEST));
     }
 
     private static void performSwap(Player player, ItemStack newItem) {
         ItemStack current = player.getItemBySlot(EquipmentSlot.CHEST);
-
         if (!current.isEmpty()) {
             player.getInventory().add(current.copy());
             player.setItemSlot(EquipmentSlot.CHEST, ItemStack.EMPTY);
@@ -113,6 +112,6 @@ public class ArmorUtils {
     }
 
     public static boolean isElytra(ItemStack stack) {
-        return stack.is(Items.ELYTRA);
+        return stack != null && stack.is(Items.ELYTRA);
     }
 }
