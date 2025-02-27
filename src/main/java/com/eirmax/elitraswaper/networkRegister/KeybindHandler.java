@@ -17,7 +17,7 @@ public class KeybindHandler {
     public static void register() {
         swapKey = new KeyMapping(
                 "key.elitraswaper.swap",
-                Config.SWAP_KEY.get(), // Ensure this is not null
+                Config.SWAP_KEY.get(),
                 "key.category.elitraswaper"
         );
     }
