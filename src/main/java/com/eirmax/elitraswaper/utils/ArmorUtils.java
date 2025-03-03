@@ -52,7 +52,7 @@ public class ArmorUtils {
         List<ItemStack> alternatives = new ArrayList<>();
 
         for (ItemStack stack : player.getInventory().items) {
-            if (stack != null && isEligibleForSwap(stack)) {
+            if (isEligibleForSwap(stack)) {
                 alternatives.add(stack);
             }
         }
@@ -73,7 +73,7 @@ public class ArmorUtils {
         List<ItemStack> alternatives = new ArrayList<>();
 
         for (ItemStack stack : player.getInventory().items) {
-            if (stack != null && isEligibleForSwap(stack)) {
+            if (isEligibleForSwap(stack)) {
                 alternatives.add(stack);
             }
         }
